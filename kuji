@@ -1,0 +1,39 @@
+#!/bin/sh
+
+if [ $# = 0 ]; then
+  echo "nothing happened with no kuji"
+  exit 1
+fi
+
+N=1
+
+while getopts n: OPT; do
+  case $OPT in
+     n) N="$OPTARG"
+       ;;
+  esac
+done
+
+shift $(($OPTIND - 1))
+
+CANDIDATES=( $@ )
+
+if [ $N -ge $# ]; then
+  echo $@
+  exit 0
+elif  [ $N -lt 1 ]; then
+  N=1
+fi
+VALUE=()
+SIZE=0
+
+while [ $SIZE -lt $N ] ;do
+  IDX=$(($(od -vAn -N4 -tu4 < /dev/random) % ${#CANDIDATES[@]}))
+  VALUE=("${VALUE[@]}" "${CANDIDATES[$IDX]}")
+  unset CANDIDATES[$IDX]
+  CANDIDATES=(${CANDIDATES[@]})
+  SIZE=${#VALUE[@]}
+done
+
+echo ${VALUE[@]}
+
