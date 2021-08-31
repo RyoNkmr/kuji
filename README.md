@@ -1,6 +1,12 @@
 # kuji
 
+## Install
 ```sh
-$ sh kuji.sh foo bar hoge fuga piyo
+cp kuji.sh /usr/local/bin/kuji && chmod 700 /usr/local/bin/kuji
+```
+
+## Usage
+```sh
+$ kuji foo bar hoge fuga piyo
 bar
 ```
